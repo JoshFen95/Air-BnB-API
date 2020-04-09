@@ -14,32 +14,52 @@ public class HandleInput implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        System.out.println("What is the name of your JSON file?: ");
-        String resourceFilePath = input.next();
-        System.out.println("--------");
+        boolean quit = false;
 
-        System.out.println("What is the ID number of the game you would like to locate?: ");
-        int id = input.nextInt();
-        FetchObject obj = new FetchObject();
-        Game[] gameObj = obj.returnGameList(resourceFilePath);
+        while (!quit) {
+            System.out.println("What is the name of your JSON file?: ");
+            String resourceFilePath = input.next();
+            System.out.println("--------");
 
-        boolean match = false;
+            System.out.println("What is the ID number of the game you would like to locate?: ");
+            int id = input.nextInt();
+            System.out.println("--------");
+            FetchObject obj = new FetchObject();
+            Game[] gameObj = obj.returnGameList(resourceFilePath);
 
-        while (!match) {
-            for (int i = 0; i < gameObj.length; i++) {
-                if (gameObj[i].getId().equals(id + "")) {
+            boolean match = false;
 
-                    System.out.println(gameObj[id - 1].toString());
-                    match = true;
+            while (!match) {
+                for (int i = 0; i < gameObj.length; i++) {
+                    if (gameObj[i].getId().equals(id + "")) {
+
+                        System.out.println(gameObj[id - 1].toString());
+                        match = true;
+                        break;
+                    }
+                }
+                if (!match) {
+                    System.out.println("Could not locate game in file");
                     break;
                 }
+                System.out.println("\nWould you like to search for another ID\n0 for NO\n" +
+                        "1 for YES");
+                int action = input.nextInt();
+
+
+                switch (action) {
+                    case 0:
+                        System.out.println("Quitting Application");
+                        quit = true;
+                        break;
+                    case 1:
+                        quit = false;
+                        break;
+                }
+
             }
-            if (!match) {
-                System.out.println("Could not locate game in file");
-                break;
-            }
+
+
         }
-
-
     }
 }
