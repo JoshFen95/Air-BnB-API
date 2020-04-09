@@ -26,16 +26,15 @@ public class FetchObject {
 
             } catch (Exception ex) {
                 ex.printStackTrace();
-            } else{
-
-                System.out.println("File could not be located");
-                return null;
             }
-            return null;
+        } else{
 
+            System.out.println("File could not be located");
+            return null;
         }
-   
-}
+        return null;
+
+    }
 
 
     private boolean jsonFileExists(String fileName) {
