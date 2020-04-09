@@ -34,10 +34,9 @@ public class FetchObject {
             return null;
 
         }
-    }
-
-        return null;
+   
 }
+
 
     private boolean jsonFileExists(String fileName) {
 
