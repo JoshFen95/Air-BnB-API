@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 @Component
 public class HandleInput implements CommandLineRunner {
-    Scanner input = new Scanner(System.in);
+   private Scanner input = new Scanner(System.in);
 
     @Override
     public void run(String... args) throws Exception {

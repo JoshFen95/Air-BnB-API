@@ -4,7 +4,8 @@ import com.example.airbnbapi.Model.Game;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.*;
+import java.io.InputStream;
+
 
 public class FetchObject {
 
@@ -14,7 +15,7 @@ public class FetchObject {
     public Game[] returnGameList(String jsonFileName) {
 
 
-        if (findJsonFile(jsonFileName)) {
+        if (jsonFileExists(jsonFileName)) {
 
             try {
                 ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -33,17 +34,11 @@ public class FetchObject {
         return null;
     }
 
-    private boolean findJsonFile(String fileName) {
+    private boolean jsonFileExists(String fileName) {
 
 
-        InputStream inputStream = getClass().getResourceAsStream("/" + fileName + ".json");
+        return getClass().getResourceAsStream("/" + fileName + ".json") != null;
 
-        if (inputStream != null) {
-            return true;
-        } else {
-            System.out.println("Could not locate file");
-            return false;
-        }
     }
 }
 
