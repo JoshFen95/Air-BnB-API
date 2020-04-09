@@ -15,8 +15,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
-*.iwsgit 
-*.iml
+*.iwsgit
 *.ipr
 
 ### NetBeans ###
@@ -34,4 +33,4 @@ build/
 /target/
 .idea/
 
-air-bnb-api.iml
+.DS_Store
