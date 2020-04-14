@@ -2,6 +2,7 @@ package com.example.airbnbapi.handler;
 
 import com.example.airbnbapi.model.Game;
 import com.example.airbnbapi.mapper.FetchObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +12,17 @@ import java.util.Scanner;
 public class HandleInput implements CommandLineRunner {
    private Scanner input = new Scanner(System.in);
 
+    private final FetchObject fetchObject;
+
+    @Autowired
+    public HandleInput(FetchObject fetchObject) {
+        this.fetchObject = fetchObject;
+    }
+
     @Override
     public void run(String... args) throws Exception {
 
         boolean quit = false;
-        FetchObject fetch = new FetchObject();
 
         while (!quit) {
 
@@ -24,7 +31,7 @@ public class HandleInput implements CommandLineRunner {
             int id = input.nextInt();
             System.out.println("--------");
 
-            Game[] cachedGames = fetch.getCachedGames();
+            Game[] cachedGames = fetchObject.getCachedGames();
 
             boolean match = false;
 

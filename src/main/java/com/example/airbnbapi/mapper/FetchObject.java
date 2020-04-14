@@ -3,14 +3,15 @@ package com.example.airbnbapi.mapper;
 import com.example.airbnbapi.model.Game;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 
-
+@Component
 public class FetchObject {
 
     private Game[] cachedGames;
+
 
     public FetchObject() {
         this.cachedGames = returnGameList("games");
@@ -20,8 +21,7 @@ public class FetchObject {
         return cachedGames;
     }
 
-    @Cacheable("cache1")
-    public Game[] returnGameList(String jsonFileName) {
+    private Game[] returnGameList(String jsonFileName) {
 
 
         if (jsonFileExists(jsonFileName)) {
