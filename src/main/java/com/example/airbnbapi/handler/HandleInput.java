@@ -1,6 +1,6 @@
 package com.example.airbnbapi.handler;
 
-import com.example.airbnbapi.Model.Game;
+import com.example.airbnbapi.model.Game;
 import com.example.airbnbapi.mapper.FetchObject;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -15,25 +15,24 @@ public class HandleInput implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         boolean quit = false;
+        FetchObject fetch = new FetchObject();
 
         while (!quit) {
-            System.out.println("What is the name of your JSON file?: ");
-            String resourceFilePath = input.next();
-            System.out.println("--------");
+
 
             System.out.println("What is the ID number of the game you would like to locate?: ");
             int id = input.nextInt();
             System.out.println("--------");
-            FetchObject obj = new FetchObject();
-            Game[] gameObj = obj.returnGameList(resourceFilePath);
+
+            Game[] cachedGames = fetch.getCachedGames();
 
             boolean match = false;
 
             while (!match) {
-                for (int i = 0; i < gameObj.length; i++) {
-                    if (gameObj[i].getId().equals(id + "")) {
+                for (int i = 0; i < cachedGames.length; i++) {
+                    if (cachedGames[i].getId().equals(id + "")) {
 
-                        System.out.println(gameObj[id - 1].toString());
+                        System.out.println(cachedGames[id - 1].toString());
                         match = true;
                         break;
                     }
