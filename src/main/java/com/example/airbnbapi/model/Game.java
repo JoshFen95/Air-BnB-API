@@ -1,4 +1,4 @@
-package com.example.airbnbapi.Model;
+package com.example.airbnbapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;
@@ -6,14 +6,14 @@ import javax.validation.constraints.NotBlank;
 public class Game {
 
 
-        private final String id;
+        private final int id;
         @NotBlank
         private final String title;
         private final long year;
         @NotBlank
         private final String creator;
 
-        public Game(@JsonProperty("id") String id,
+        public Game(@JsonProperty("id") int id,
                     @JsonProperty("title") String title,
                     @JsonProperty("year") long year,
                     @JsonProperty("creator") String creator) {
@@ -24,7 +24,7 @@ public class Game {
         }
 
 
-        public String getId() {
+        public int getId() {
             return id;
         }
 
