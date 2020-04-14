@@ -37,7 +37,7 @@ public class HandleInput implements CommandLineRunner {
 
             while (!match) {
                 for (int i = 0; i < cachedGames.length; i++) {
-                    if (cachedGames[i].getId().equals(id + "")) {
+                    if (cachedGames[i].getId() == (id)) {
 
                         System.out.println(cachedGames[id - 1].toString());
                         match = true;
