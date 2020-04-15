@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GameService implements ServiceInterface{
+public class GameService implements ServiceInterface<Game>{
 
 
     private Game[] cachedGames;
@@ -22,5 +22,10 @@ public class GameService implements ServiceInterface{
     @Override
     public Game[] getItems() {
          return cachedGames;
+    }
+
+    @Override
+    public int getAction() {
+        return 1;
     }
 }

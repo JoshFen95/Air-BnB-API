@@ -1,7 +1,5 @@
 package com.example.airbnbapi.model;
 
-
-public class Book extends Media {
-
+public class Film extends Media{
 
 }

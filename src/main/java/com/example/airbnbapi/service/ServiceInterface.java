@@ -1,6 +1,10 @@
 package com.example.airbnbapi.service;
 
-public interface ServiceInterface<T> {
+import com.example.airbnbapi.model.Media;
+
+public interface ServiceInterface<T extends Media> {
 
 T[] getItems();
+
+int getAction();
 }
