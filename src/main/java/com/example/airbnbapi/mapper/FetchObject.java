@@ -1,6 +1,5 @@
 package com.example.airbnbapi.mapper;
 
-import com.example.airbnbapi.model.Game;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
@@ -8,20 +7,10 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 
 @Component
-public class FetchObject {
-
-    private Game[] cachedGames;
+public class FetchObject<T> {
 
 
-    public FetchObject() {
-        this.cachedGames = returnGameList("games");
-    }
-
-    public Game[] getCachedGames() {
-        return cachedGames;
-    }
-
-    private Game[] returnGameList(String jsonFileName) {
+    public <T> T[]  getObjectFromJsonFile(String jsonFileName, Class<T[]> clazz) {
 
 
         if (jsonFileExists(jsonFileName)) {
@@ -32,7 +21,7 @@ public class FetchObject {
 
                     InputStream inputStream = getClass().getResourceAsStream("/" + jsonFileName + ".json");
 
-                    return mapper.readValue(inputStream, Game[].class);
+                    return mapper.readValue(inputStream, clazz);
 
 
 
