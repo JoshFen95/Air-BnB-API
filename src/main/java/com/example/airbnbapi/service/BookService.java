@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BookService implements ServiceInterface{
+public class BookService implements ServiceInterface<Book>{
 
 
     private Book[] cachedBooks;
@@ -22,6 +22,11 @@ public class BookService implements ServiceInterface{
     @Override
     public Book[] getItems() {
         return cachedBooks;    }
+
+    @Override
+    public int getAction() {
+        return 2;
+    }
 }
 
 
