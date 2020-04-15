@@ -51,7 +51,7 @@ public class HandleInput<T> implements CommandLineRunner {
 
                 //Locating Game
                 case 1:
-                    Game[] cachedGames = gameService.getGames();
+                    Game[] cachedGames = gameService.getItems();
 
                     System.out.println("What is the ID number of the game you would like to locate?: \n--------");
                     id = input.nextInt();
@@ -79,7 +79,7 @@ public class HandleInput<T> implements CommandLineRunner {
 
                 //Locating Book
                 case 2:
-                    Book[] cachedBooks = bookService.getBooks();
+                    Book[] cachedBooks = bookService.getItems();
                     System.out.println("What is the ID number of the book you would like to locate?: \n--------");
                     id = input.nextInt();
                     System.out.println("--------");
