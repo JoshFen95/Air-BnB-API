@@ -24,15 +24,8 @@ public class ServiceFactory {
 
     public ServiceInterface<? extends Media> getServiceByType(MediaType type) {
 
-        for (Map.Entry<MediaType, ServiceInterface<? extends Media>> entry : map.entrySet()) {
 
-            if(entry.getKey().equals(type)) {
-                return entry.getValue();
-            }
-        }
 
-        return null;
+     return map.get(type);
     }
-
-
 }
