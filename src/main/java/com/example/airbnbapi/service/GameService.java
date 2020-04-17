@@ -2,14 +2,20 @@ package com.example.airbnbapi.service;
 
 import com.example.airbnbapi.mapper.FetchObject;
 import com.example.airbnbapi.model.Game;
+import com.example.airbnbapi.model.Media;
+import com.example.airbnbapi.model.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
-public class GameService implements ServiceInterface<Game>{
+public class GameService implements ServiceInterface<Game> {
 
 
     private Game[] cachedGames;
+    private MediaType type = MediaType.GAME;
 
     @Autowired
     public GameService(FetchObject<Game> fetchObject) {
@@ -21,11 +27,31 @@ public class GameService implements ServiceInterface<Game>{
 
     @Override
     public Game[] getItems() {
-         return cachedGames;
+        return cachedGames;
     }
 
     @Override
     public int getAction() {
         return 1;
     }
+
+    @Override
+    public Game getMediaById(int id) {
+
+        for (int i = 0; i < cachedGames.length; i++) {
+            if (cachedGames[i].getId() == (id)) {
+
+
+                return cachedGames[id-1];
+            }
+        }
+
+        return null;
+    }
+
+    public MediaType getType() {
+        return type;
+    }
 }
+
+

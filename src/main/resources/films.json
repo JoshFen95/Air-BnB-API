@@ -1,8 +1,8 @@
 [
-{"id":"1", "title":"Snatch", "year":2000, "creator":"Guy Ritchie"},
-{"id":"2", "title":"Avenger", "year":2019, "creator":"Stan Lee"},
-{"id":"3", "title":"James Bond", "year":2007, "creator":"Director"},
-{"id":"4", "title":"Happy Gilmore", "year":1999, "creator":"Adam Sandler"}
+{"type" : "film","id":"1", "title":"Snatch", "year":2000, "creator":"Guy Ritchie"},
+{"type" : "film","id":"2", "title":"Avenger", "year":2019, "creator":"Stan Lee"},
+{"type" : "film","id":"3", "title":"James Bond", "year":2007, "creator":"Director"},
+{"type" : "film","id":"4", "title":"Happy Gilmore", "year":1999, "creator":"Adam Sandler"}
   ]
 
 
