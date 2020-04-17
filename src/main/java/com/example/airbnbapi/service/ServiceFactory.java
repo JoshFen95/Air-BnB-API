@@ -1,5 +1,5 @@
 package com.example.airbnbapi.service;
-//
+
 
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
@@ -21,10 +21,6 @@ public class ServiceFactory {
 
     }
 
-    public ServiceInterface<? extends Media> getService(int action) {
-
-        return map.get(action);
-    }
 
     public ServiceInterface<? extends Media> getServiceByType(MediaType type) {
 
