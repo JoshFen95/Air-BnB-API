@@ -11,22 +11,22 @@ import java.util.*;
 @Component
 public class ServiceFactory {
 
-    Map<Integer, ServiceInterface<? extends Media>> map;
+    Map<MediaType, ServiceInterface<? extends Media>> map;
 
     @Autowired
     public ServiceFactory(List<ServiceInterface<? extends Media>> serviceInterfaces){
         this.map = new HashMap<>();
 
-        serviceInterfaces.stream().forEach(serviceInterface -> map.put(serviceInterface.getAction(),serviceInterface));
+        serviceInterfaces.stream().forEach(serviceInterface -> map.put(serviceInterface.getType(),serviceInterface));
 
     }
 
 
     public ServiceInterface<? extends Media> getServiceByType(MediaType type) {
 
-        for (Map.Entry<Integer, ServiceInterface<? extends Media>> entry : map.entrySet()) {
+        for (Map.Entry<MediaType, ServiceInterface<? extends Media>> entry : map.entrySet()) {
 
-            if(entry.getValue().getType().equals(type)) {
+            if(entry.getKey().equals(type)) {
                 return entry.getValue();
             }
         }
