@@ -1,29 +1,31 @@
 package com.example.airbnbapi.service;
-//
+
 
 import com.example.airbnbapi.model.Media;
+import com.example.airbnbapi.model.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class ServiceFactory {
 
-    Map<Integer, ServiceInterface<? extends Media>> map;
+    Map<MediaType, ServiceInterface<? extends Media>> map;
 
     @Autowired
     public ServiceFactory(List<ServiceInterface<? extends Media>> serviceInterfaces){
         this.map = new HashMap<>();
 
-        serviceInterfaces.stream().forEach(serviceInterface -> map.put(serviceInterface.getAction(),serviceInterface));
+        serviceInterfaces.stream().forEach(serviceInterface -> map.put(serviceInterface.getType(),serviceInterface));
 
     }
 
-    public ServiceInterface<? extends Media> getService(int num) {
 
-        return map.get(num);
+    public ServiceInterface<? extends Media> getServiceByType(MediaType type) {
+
+
+
+     return map.get(type);
     }
 }
