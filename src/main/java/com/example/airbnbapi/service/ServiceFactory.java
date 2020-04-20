@@ -24,8 +24,8 @@ public class ServiceFactory {
 
     public ServiceInterface<? extends Media> getServiceByType(MediaType type) {
 
-
-
      return map.get(type);
     }
 }
+
+
