@@ -6,7 +6,10 @@ import com.example.airbnbapi.service.ServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RequestMapping("api/v1/media")
@@ -27,14 +30,8 @@ public class Controller {
     public ResponseEntity<Media[]> getAllMedia(@PathVariable("type") MediaType type) {
 
         Media[] items = serviceFactory.getServiceByType(type).getItems();
-        if (items != null) {
+
             return new ResponseEntity<>(items, HttpStatus.OK);
-
-        } else {
-            return new ResponseEntity<Media[]>(HttpStatus.BAD_REQUEST);
-
-        }
-
     }
 
     @GetMapping(path = "/{type}/{id}")
@@ -47,7 +44,7 @@ public class Controller {
             return new ResponseEntity<Media>(item, HttpStatus.OK);
 
         } else {
-            return new ResponseEntity<Media>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Media>(HttpStatus.NOT_FOUND);
 
         }
     }
