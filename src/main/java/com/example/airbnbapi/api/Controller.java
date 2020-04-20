@@ -4,6 +4,8 @@ import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
 import com.example.airbnbapi.service.ServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,25 +20,33 @@ public class Controller {
 
 
     @Autowired
-    public Controller( ServiceFactory serviceFactory) {
+    public Controller(ServiceFactory serviceFactory) {
 
         this.serviceFactory = serviceFactory;
 
     }
 
     @GetMapping(path = "/{type}")
-    public  Media[] getAllMedia (@PathVariable("type") MediaType type) {
-      return   serviceFactory.getServiceByType(type).getItems();
+    public ResponseEntity<Media[]> getAllMedia(@PathVariable("type") MediaType type) {
 
+        Media[] items = serviceFactory.getServiceByType(type).getItems();
+
+            return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{type}/{id}")
 
-    public Media getGameById (@PathVariable("type") MediaType type, @PathVariable("id") int id){
+    public ResponseEntity<Media> getGameById(@PathVariable("type") MediaType type, @PathVariable("id") int id) {
 
+       Media item = serviceFactory.getServiceByType(type).getMediaById(id);
 
+        if (item != null) {
+            return new ResponseEntity<Media>(item, HttpStatus.OK);
 
-        return serviceFactory.getServiceByType(type).getMediaById(id);
+        } else {
+            return new ResponseEntity<Media>(HttpStatus.NOT_FOUND);
+
+        }
     }
 
 }
