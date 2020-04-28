@@ -1,52 +1,46 @@
 package com.example.airbnbapi.service;
 
-import com.example.airbnbapi.mapper.FetchObject;
+import com.example.airbnbapi.api.BookRepository;
 import com.example.airbnbapi.model.Book;
 import com.example.airbnbapi.model.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class BookService implements ServiceInterface<Book>{
 
 
-    private Book[] cachedBooks;
     private MediaType type = MediaType.BOOK;
 
     @Autowired
-    public BookService(FetchObject<Book> fetchObject) {
-
-        this.cachedBooks = fetchObject.getObjectFromJsonFile("books", Book[].class);
-
-    }
+    private BookRepository bookRepository;
 
 
     @Override
-    public Book[] getItems() {
-        return cachedBooks;    }
+    public List<Book> getItems() {
+
+        return bookRepository.findAll();    }
+
 
     @Override
-    public int getAction() {
-        return 2;
-    }
+    public Optional<Book> getItemById(String id) {
 
-    @Override
-    public Book getMediaById(int id) {
-        for (int i = 0; i < cachedBooks.length; i++) {
-            if (cachedBooks[i].getId() == (id)) {
+        return bookRepository.findById(id);
 
-
-                return cachedBooks[id-1];
-            }
-        }
-
-        return null;
     }
 
     @Override
     public MediaType getType() {
         return type;
+    }
+
+    @Override
+    public void deleteById(String id) {
+        bookRepository.deleteById(id);
     }
 }
 
