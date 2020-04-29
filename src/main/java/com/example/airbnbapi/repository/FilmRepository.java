@@ -1,4 +1,4 @@
-package com.example.airbnbapi.api;
+package com.example.airbnbapi.repository;
 
 import com.example.airbnbapi.model.Film;
 import org.springframework.data.mongodb.repository.MongoRepository;

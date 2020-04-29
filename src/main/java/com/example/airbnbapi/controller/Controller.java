@@ -1,4 +1,4 @@
-package com.example.airbnbapi.api;
+package com.example.airbnbapi.controller;
 
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
@@ -6,7 +6,11 @@ import com.example.airbnbapi.service.ServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.ResponseEntity.status;
 
@@ -26,7 +30,7 @@ public class Controller {
     // NEED TO ADD A PUT METHOD
 
 
-    @RequestMapping(value = "/{type}", method = RequestMethod.GET)
+    @GetMapping(path = "/{type}")
     public ResponseEntity getAll(@PathVariable("type") MediaType type) {
         List<? extends Media> items = serviceFactory.getServiceByType(type).getItems();
 
@@ -34,7 +38,7 @@ public class Controller {
 
     }
 
-    @RequestMapping(value = "/{type}/id/{id}", method = RequestMethod.GET)
+    @GetMapping(path = "/{type}/id/{id}")
     public ResponseEntity getById(@PathVariable("type") MediaType type, @PathVariable("id") String id) {
 
         Optional<? extends Media> searchedItem = serviceFactory.getServiceByType(type).getItemById(id);
@@ -47,7 +51,7 @@ public class Controller {
     }
 
 
-    @RequestMapping(value = "/delete/{type}/id/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(path = "/delete/{type}/id/{id}")
     public ResponseEntity deleteItemById(@PathVariable("type") MediaType type, @PathVariable("id") String id) {
 
 

@@ -6,5 +6,4 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 public class Game extends Media {
 
-    private MediaType type = MediaType.GAME;
 }

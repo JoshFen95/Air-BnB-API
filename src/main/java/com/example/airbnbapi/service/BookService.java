@@ -1,6 +1,6 @@
 package com.example.airbnbapi.service;
 
-import com.example.airbnbapi.api.BookRepository;
+import com.example.airbnbapi.repository.BookRepository;
 import com.example.airbnbapi.model.Book;
 import com.example.airbnbapi.model.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
