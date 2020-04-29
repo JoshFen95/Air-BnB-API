@@ -1,54 +1,46 @@
 package com.example.airbnbapi.service;
 
-import com.example.airbnbapi.mapper.FetchObject;
+import com.example.airbnbapi.repository.GameRepository;
 import com.example.airbnbapi.model.Game;
 import com.example.airbnbapi.model.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
-public class GameService implements ServiceInterface<Game> {
+public class GameService implements ServiceInterface<Game>{
 
 
-    private Game[] cachedGames;
     private MediaType type = MediaType.GAME;
 
     @Autowired
-    public GameService(FetchObject<Game> fetchObject) {
-
-        this.cachedGames = fetchObject.getObjectFromJsonFile("games", Game[].class);
-
-    }
-
+    private GameRepository gameRepository;
 
 
     @Override
-    public Game[] getItems() {
-        return cachedGames;
+    public List<Game> getItems() {
+
+       return gameRepository.findAll();
     }
+
 
     @Override
-    public int getAction() {
-        return 1;
+    public Optional<Game> getItemById(String id) {
+
+       return gameRepository.findById(id);
     }
 
-    @Override
-    public Game getMediaById(int id) {
-
-        for (int i = 0; i < cachedGames.length; i++) {
-            if (cachedGames[i].getId() == (id)) {
-
-
-                return cachedGames[id-1];
-            }
-        }
-
-        return null;
-    }
 
     public MediaType getType() {
         return type;
+    }
+
+    @Override
+    public void deleteById(String id) {
+        gameRepository.deleteById(id);
     }
 }
 

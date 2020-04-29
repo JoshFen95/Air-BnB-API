@@ -3,14 +3,17 @@ package com.example.airbnbapi.service;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
 
+import java.util.List;
+import java.util.Optional;
+
 
 public interface ServiceInterface<T extends Media> {
 
-T[] getItems();
+List<T> getItems();
 
-int getAction();
-
-T getMediaById(int id);
+Optional<T> getItemById(String id);
 
 MediaType getType();
+
+void deleteById(String id);
 }
