@@ -1,9 +1,7 @@
 package com.example.airbnbapi.service;
 
-import com.example.airbnbapi.model.Game;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
-import com.example.airbnbapi.repository.GameRepository;
 import com.example.airbnbapi.repository.RepositoryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
