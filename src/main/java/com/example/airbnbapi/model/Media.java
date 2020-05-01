@@ -1,8 +1,24 @@
 package com.example.airbnbapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import org.springframework.data.annotation.Id;
-public abstract class Media {
+
+
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = false)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Game.class, name = "Game"),
+
+        @JsonSubTypes.Type(value = Film.class, name = "Film") }
+)
+
+
+public class Media {
 
 
     @Id
@@ -15,6 +31,11 @@ public abstract class Media {
     @JsonProperty("creator")
     private  String creator;
 
+
+
+    public String getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;
@@ -30,14 +51,27 @@ public abstract class Media {
         return creator;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setYear(long year) {
+        this.year = year;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
 
     @Override
     public String toString() {
-        return
-                "id='" +'\'' +
-                        ", title='" + title + '\'' +
-                        ", year=" + year +
-                        ", authors=" + creator +
-                        '}';
+        return "ID: (" + id +
+                        "), Title: " + title +
+                        ", Year: " + year +
+                        ", Creator: " + creator;
     }
 }
