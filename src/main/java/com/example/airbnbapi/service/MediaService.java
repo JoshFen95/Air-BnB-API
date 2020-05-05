@@ -1,6 +1,6 @@
 package com.example.airbnbapi.service;
 
-import com.example.airbnbapi.controller.exception.InternalServerErrorException;
+import com.example.airbnbapi.controller.exception.DataBaseException;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
 import com.example.airbnbapi.repository.RepositoryFactory;
@@ -24,7 +24,7 @@ public class MediaService {
             return repositoryFactory.getRepositoryByType(type).save(item);
         } catch (RuntimeException e) {
 
-            throw new InternalServerErrorException("Sorry, Couldn't establish connection to the database");
+            throw new DataBaseException("Sorry, Couldn't establish connection to the database",e);
         }
     }
 
@@ -33,7 +33,7 @@ public class MediaService {
             return repositoryFactory.getRepositoryByType(type).findAll();
         } catch (RuntimeException e) {
 
-            throw new InternalServerErrorException("Sorry, Couldn't establish connection to the database");
+            throw new DataBaseException("Sorry, Couldn't establish connection to the database");
         }
     }
 
@@ -43,7 +43,7 @@ public class MediaService {
             return repositoryFactory.getRepositoryByType(type).findById(id);
         } catch (RuntimeException e) {
 
-            throw new InternalServerErrorException("Sorry, Couldn't establish connection to the database");
+            throw new DataBaseException("Sorry, Couldn't establish connection to the database",e);
         }
     }
 
@@ -53,7 +53,7 @@ public class MediaService {
             repositoryFactory.getRepositoryByType(type).deleteById(id);
         } catch (RuntimeException e) {
 
-            throw new InternalServerErrorException("Sorry, Couldn't establish connection to the database");
+            throw new DataBaseException("Sorry, Couldn't establish connection to the database");
         }
     }
 }
