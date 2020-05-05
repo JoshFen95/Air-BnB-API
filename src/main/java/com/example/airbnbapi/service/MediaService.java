@@ -1,5 +1,6 @@
 package com.example.airbnbapi.service;
 
+import com.example.airbnbapi.controller.exception.InternalServerErrorException;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
 import com.example.airbnbapi.repository.RepositoryFactory;
@@ -14,30 +15,46 @@ import java.util.Optional;
 public class MediaService {
 
 
-
     @Autowired
     private RepositoryFactory<Media> repositoryFactory;
 
 
     public Media insertOrUpdateItem(MediaType type, Media item) {
+        try {
+            return repositoryFactory.getRepositoryByType(type).save(item);
+        } catch (RuntimeException e) {
 
-       return repositoryFactory.getRepositoryByType(type).save(item);
+            throw new InternalServerErrorException("Sorry, Couldn't establish connection to the database");
+        }
     }
 
     public List<Media> getItems(MediaType type) {
+        try {
+            return repositoryFactory.getRepositoryByType(type).findAll();
+        } catch (RuntimeException e) {
 
-       return repositoryFactory.getRepositoryByType(type).findAll();
+            throw new InternalServerErrorException("Sorry, Couldn't establish connection to the database");
+        }
     }
 
 
     public Optional<Media> getItemById(MediaType type, String id) {
+        try {
+            return repositoryFactory.getRepositoryByType(type).findById(id);
+        } catch (RuntimeException e) {
 
-       return repositoryFactory.getRepositoryByType(type).findById(id);
+            throw new InternalServerErrorException("Sorry, Couldn't establish connection to the database");
+        }
     }
 
 
     public void deleteById(MediaType type, String id) {
-        repositoryFactory.getRepositoryByType(type).deleteById(id);
+        try {
+            repositoryFactory.getRepositoryByType(type).deleteById(id);
+        } catch (RuntimeException e) {
+
+            throw new InternalServerErrorException("Sorry, Couldn't establish connection to the database");
+        }
     }
 }
 
