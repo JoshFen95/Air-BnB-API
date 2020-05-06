@@ -31,53 +31,58 @@ public class Controller {
     @Autowired
     private MediaService mediaService;
 
-
     // Add new item
     @PostMapping(path = "/{type}/add")
-    public ResponseEntity<Media> addItem(@PathVariable("type") MediaType type, @RequestBody Media item) {
-
+    public ResponseEntity addItem(@PathVariable("type") MediaType type, @RequestBody Media item) {
 
         return status(HttpStatus.OK).body(mediaService.insertOrUpdateItem(type, item));
+
+
     }
 
+
     // Update exiting item via ID
-    @PutMapping(path = "/{type}/update/id/{id}")
+    @PutMapping(path = "/{type}/{id}")
     public ResponseEntity updateItem(@PathVariable("type") MediaType type, @PathVariable("id") String id, @Valid @RequestBody Media itemToUpdate) {
 
-        Optional<? extends Media> searchedItem = mediaService.getItemById(type,id);
+        Optional<? extends Media> searchedItem = mediaService.getItemById(type, id);
 
         if (searchedItem.isPresent()) {
 
-            return status(HttpStatus.OK).body(searchedItem.get().getTitle() + " has been updated: " + mediaService.insertOrUpdateItem(type,itemToUpdate));
-        } else  {
-            return status(HttpStatus.NOT_FOUND).body("Item could not be found to update. New item added" + mediaService.insertOrUpdateItem(type,itemToUpdate));
+            return status(HttpStatus.OK).body(searchedItem.get().getTitle() + " has been updated: " + mediaService.insertOrUpdateItem(type, itemToUpdate));
+        } else {
+            return status(HttpStatus.NOT_FOUND).body("Item could not be found to update. New item added" + mediaService.insertOrUpdateItem(type, itemToUpdate));
         }
     }
 
-// Show all items of one type
+    // Show all items of one type
     @GetMapping(path = "/{type}")
     public ResponseEntity getAll(@PathVariable("type") MediaType type) {
         List<? extends Media> items = mediaService.getItems(type);
 
-        return status(HttpStatus.OK).body(items);
+        if (items != null) {
+            return status(HttpStatus.OK).body(items);
+        } else {
+            return status(HttpStatus.NOT_FOUND).body("ITEMS NOT FOUND");
+        }
 
     }
 
     // show an item via ID search
-    @GetMapping(path = "/{type}/id/{id}")
+    @GetMapping(path = "/{type}/{id}")
     public ResponseEntity getById(@PathVariable("type") MediaType type, @PathVariable("id") String id) {
 
-        Optional<? extends Media> searchedItem = mediaService.getItemById(type,id);
+        Optional<? extends Media> searchedItem = mediaService.getItemById(type, id);
 
         if (searchedItem.isPresent()) {
             return status(HttpStatus.OK).body(mediaService.getItemById(type, id));
         } else {
-            return status(HttpStatus.NOT_FOUND).body("ID not found");
+            return status(HttpStatus.NOT_FOUND).body("ID NOT FOUND");
         }
     }
 
-// Delete an item via ID search
-    @DeleteMapping(path = "/{type}/delete/id/{id}")
+    // Delete an item via ID search
+    @DeleteMapping(path = "/{type}/{id}")
     public ResponseEntity deleteItemById(@PathVariable("type") MediaType type, @PathVariable("id") String id) {
 
 
@@ -85,7 +90,7 @@ public class Controller {
             mediaService.deleteById(type, id);
             return status(HttpStatus.OK).body("id " + id + " has been deleted");
         } else {
-            return status(HttpStatus.NOT_FOUND).body("id " + id + "  not found");
+            return status(HttpStatus.NOT_FOUND).body("ID NOT FOUND. Could not delete item");
         }
     }
 
