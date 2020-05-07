@@ -3,6 +3,10 @@ package com.example.airbnbapi.controller;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
 import com.example.airbnbapi.service.MediaService;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +32,32 @@ import java.util.Optional;
 @RestController
 public class Controller {
 
+// add log in correct places
+    //be able to alter what logs show via a url request
     @Autowired
     private MediaService mediaService;
+
+
+    private static final Logger logger = LoggerFactory.getLogger(Controller.class);
+
+
+    @RequestMapping("/")
+    public String index() {
+        logger.trace("A TRACE Message");
+        logger.debug("A DEBUG Message");
+        logger.info("An INFO Message");
+        logger.warn("A WARN Message");
+        logger.error("An ERROR Message");
+
+        return "Check out the Logs to see the output...";
+    }
+
 
     // Add new item
     @PostMapping(path = "/{type}/add")
     public ResponseEntity addItem(@PathVariable("type") MediaType type, @RequestBody Media item) {
 
+        logger.trace("User Entered: Type= " + type + "Media= " + item);
         return status(HttpStatus.OK).body(mediaService.insertOrUpdateItem(type, item));
 
 
@@ -44,6 +67,8 @@ public class Controller {
     // Update exiting item via ID
     @PutMapping(path = "/{type}/{id}")
     public ResponseEntity updateItem(@PathVariable("type") MediaType type, @PathVariable("id") String id, @Valid @RequestBody Media itemToUpdate) {
+
+        logger.trace("User Entered: Type= " + type + "Id= "+ id + " Media= " + itemToUpdate);
 
         Optional<? extends Media> searchedItem = mediaService.getItemById(type, id);
 
@@ -58,6 +83,7 @@ public class Controller {
     // Show all items of one type
     @GetMapping(path = "/{type}")
     public ResponseEntity getAll(@PathVariable("type") MediaType type) {
+        logger.trace("User Entered: Type= " + type);
         List<? extends Media> items = mediaService.getItems(type);
 
         if (items != null) {
@@ -71,7 +97,7 @@ public class Controller {
     // show an item via ID search
     @GetMapping(path = "/{type}/{id}")
     public ResponseEntity getById(@PathVariable("type") MediaType type, @PathVariable("id") String id) {
-
+        logger.trace("User Entered: Type= " + type + "Id= " + id);
         Optional<? extends Media> searchedItem = mediaService.getItemById(type, id);
 
         if (searchedItem.isPresent()) {
@@ -84,7 +110,7 @@ public class Controller {
     // Delete an item via ID search
     @DeleteMapping(path = "/{type}/{id}")
     public ResponseEntity deleteItemById(@PathVariable("type") MediaType type, @PathVariable("id") String id) {
-
+        logger.trace("User Entered: Type= " + type + "Id= " + id);
 
         if (mediaService.getItemById(type, id).isPresent()) {
             mediaService.deleteById(type, id);
