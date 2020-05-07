@@ -4,6 +4,8 @@ import com.example.airbnbapi.controller.exception.DataBaseException;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
 import com.example.airbnbapi.repository.RepositoryFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.Optional;
 @Service
 public class MediaService {
 
+    private static final Logger logger = LoggerFactory.getLogger(MediaService.class);
 
     @Autowired
     private RepositoryFactory<Media> repositoryFactory;
@@ -24,7 +27,8 @@ public class MediaService {
             return repositoryFactory.getRepositoryByType(type).save(item);
         } catch (RuntimeException e) {
 
-            throw new DataBaseException("Sorry, Couldn't establish connection to the database",e);
+            logger.error("An error occurred when trying to request data from the database, RuntimeException: " + e);
+            throw new DataBaseException("Sorry, couldn't establish connection to the database",e);
         }
     }
 
@@ -33,7 +37,9 @@ public class MediaService {
             return repositoryFactory.getRepositoryByType(type).findAll();
         } catch (RuntimeException e) {
 
-            throw new DataBaseException("Sorry, Couldn't establish connection to the database");
+            logger.error("An error occurred when trying to request data from the database, RuntimeException: " + e);
+
+            throw new DataBaseException("Sorry, couldn't establish connection to the database");
         }
     }
 
@@ -43,7 +49,9 @@ public class MediaService {
             return repositoryFactory.getRepositoryByType(type).findById(id);
         } catch (RuntimeException e) {
 
-            throw new DataBaseException("Sorry, Couldn't establish connection to the database",e);
+            logger.error("An error occurred when trying to request data from the database, RuntimeException: " + e);
+
+            throw new DataBaseException("Sorry, couldn't establish connection to the database",e);
         }
     }
 
@@ -53,7 +61,9 @@ public class MediaService {
             repositoryFactory.getRepositoryByType(type).deleteById(id);
         } catch (RuntimeException e) {
 
-            throw new DataBaseException("Sorry, Couldn't establish connection to the database");
+            logger.error("An error occurred when trying to request data from the database, RuntimeException: " + e);
+
+            throw new DataBaseException("Sorry, couldn't establish connection to the database");
         }
     }
 }

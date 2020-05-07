@@ -3,6 +3,10 @@ package com.example.airbnbapi.controller;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
 import com.example.airbnbapi.service.MediaService;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +32,21 @@ import java.util.Optional;
 @RestController
 public class Controller {
 
+
     @Autowired
     private MediaService mediaService;
+
+
+    private static final Logger logger = LoggerFactory.getLogger(Controller.class);
+
+
+
 
     // Add new item
     @PostMapping(path = "/{type}/add")
     public ResponseEntity addItem(@PathVariable("type") MediaType type, @RequestBody Media item) {
 
+        logger.trace("User Entered: Type= " + type + " Media= " + item);
         return status(HttpStatus.OK).body(mediaService.insertOrUpdateItem(type, item));
 
 
@@ -44,6 +56,8 @@ public class Controller {
     // Update exiting item via ID
     @PutMapping(path = "/{type}/{id}")
     public ResponseEntity updateItem(@PathVariable("type") MediaType type, @PathVariable("id") String id, @Valid @RequestBody Media itemToUpdate) {
+
+        logger.trace("User Entered: Type= " + type + " Id= "+ id + " Media= " + itemToUpdate);
 
         Optional<? extends Media> searchedItem = mediaService.getItemById(type, id);
 
@@ -58,7 +72,9 @@ public class Controller {
     // Show all items of one type
     @GetMapping(path = "/{type}")
     public ResponseEntity getAll(@PathVariable("type") MediaType type) {
+
         List<? extends Media> items = mediaService.getItems(type);
+        logger.trace("User Entered: Type= " + type);
 
         if (items != null) {
             return status(HttpStatus.OK).body(items);
@@ -73,6 +89,7 @@ public class Controller {
     public ResponseEntity getById(@PathVariable("type") MediaType type, @PathVariable("id") String id) {
 
         Optional<? extends Media> searchedItem = mediaService.getItemById(type, id);
+        logger.trace("User Entered: Type= " + type + " Id= " + id);
 
         if (searchedItem.isPresent()) {
             return status(HttpStatus.OK).body(mediaService.getItemById(type, id));
@@ -84,11 +101,11 @@ public class Controller {
     // Delete an item via ID search
     @DeleteMapping(path = "/{type}/{id}")
     public ResponseEntity deleteItemById(@PathVariable("type") MediaType type, @PathVariable("id") String id) {
-
+        logger.trace("User Entered: Type= " + type + " Id= " + id);
 
         if (mediaService.getItemById(type, id).isPresent()) {
             mediaService.deleteById(type, id);
-            return status(HttpStatus.OK).body("id " + id + " has been deleted");
+            return status(HttpStatus.OK).body("Id " + id + " has been deleted");
         } else {
             return status(HttpStatus.NOT_FOUND).body("ID NOT FOUND. Could not delete item");
         }
