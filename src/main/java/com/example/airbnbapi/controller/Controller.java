@@ -1,5 +1,7 @@
 package com.example.airbnbapi.controller;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
 import com.example.airbnbapi.service.MediaService;
@@ -40,7 +42,18 @@ public class Controller {
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
 
 
+    // Show all items of one type
+    @GetMapping(path = "/log/{level}")
+    public ResponseEntity changeLevel(@PathVariable("level") String level) {
 
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        context.getLogger(Controller.class).setLevel(Level.valueOf(level));
+
+
+            return status(HttpStatus.OK).body(level);
+
+
+    }
 
     // Add new item
     @PostMapping(path = "/{type}/add")
@@ -74,7 +87,7 @@ public class Controller {
     public ResponseEntity getAll(@PathVariable("type") MediaType type) {
 
         List<? extends Media> items = mediaService.getItems(type);
-        logger.trace("User Entered: Type= " + type);
+        logger.trace("User Entered: Type= " + type + " DATA RETURNED by CALL: " + items);
 
         if (items != null) {
             return status(HttpStatus.OK).body(items);
