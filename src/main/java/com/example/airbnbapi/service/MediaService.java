@@ -1,5 +1,8 @@
 package com.example.airbnbapi.service;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
+import com.example.airbnbapi.controller.Controller;
 import com.example.airbnbapi.controller.exception.DataBaseException;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
@@ -20,6 +23,7 @@ public class MediaService {
 
     @Autowired
     private RepositoryFactory<Media> repositoryFactory;
+
 
 
     public Media insertOrUpdateItem(MediaType type, Media item) {
