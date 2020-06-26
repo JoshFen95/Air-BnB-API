@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
+import com.example.airbnbapi.model.MediaTypeConverter;
 import com.example.airbnbapi.service.MediaService;
 
 
@@ -12,8 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,6 +40,16 @@ public class Controller {
 
     @Autowired
     private MediaService mediaService;
+
+    @Autowired
+    private MediaTypeConverter mediaTypeConverter;
+
+    @InitBinder
+    protected void initBinder(final WebDataBinder webDataBinder) {
+
+        webDataBinder.registerCustomEditor(MediaType.class, mediaTypeConverter);
+
+    }
 
 
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);

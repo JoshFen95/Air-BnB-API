@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Id;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = false)
+@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type", visible = false)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Game.class, name = "Game"),
 
@@ -27,9 +27,13 @@ public class Media {
     @JsonProperty("title")
     private  String title;
     @JsonProperty("year")
-    private  long year;
+    private long year;
     @JsonProperty("creator")
-    private  String creator;
+    private String creator;
+    @JsonProperty("url")
+    private String url;
+    @JsonProperty("videoUrl")
+    private String videoUrl;
 
 
 
