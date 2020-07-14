@@ -6,7 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface MediaRepository<M extends Media> extends MongoRepository<M, String> {
 
-    default MediaType getMediaType() {
-        return null;
-    }
+    default MediaType getMediaType() { return null; }
 }

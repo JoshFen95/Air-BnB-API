@@ -27,7 +27,7 @@ public class Media {
     @JsonProperty("title")
     private  String title;
     @JsonProperty("year")
-    private long year;
+    private int year;
     @JsonProperty("creator")
     private String creator;
     @JsonProperty("url")
@@ -46,7 +46,7 @@ public class Media {
     }
 
 
-    public long getYear() {
+    public int getYear() {
         return year;
     }
 
@@ -63,12 +63,20 @@ public class Media {
         this.title = title;
     }
 
-    public void setYear(long year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
     }
 
     @Override
