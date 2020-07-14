@@ -65,7 +65,6 @@ public class Controller {
 
             return status(HttpStatus.OK).body(level);
 
-
     }
 
     // Add new item
@@ -73,9 +72,26 @@ public class Controller {
     public ResponseEntity addItem(@PathVariable("type") MediaType type, @RequestBody Media item) {
 
         logger.trace("User Entered: Type= " + type + " Media= " + item);
-        return status(HttpStatus.OK).body(mediaService.insertOrUpdateItem(type, item));
+        if (mediaService.itemExists(type, item.getTitle())) {
+            return status(HttpStatus.CONFLICT).body("Item already exists in the database");
+        } else {
 
+            if (type == MediaType.BOOK) {
 
+                if (!item.getTitle().isEmpty() & !item.getCreator().isEmpty() & !item.getUrl().isEmpty() & item.getYear() != 0) {
+                    return status(HttpStatus.OK).body(mediaService.insertOrUpdateItem(type, item));
+                } else {
+                    return status(HttpStatus.BAD_REQUEST).body("Please insert missing data");
+                }
+            } else {
+
+                if (!item.getTitle().isEmpty() & !item.getCreator().isEmpty() & !item.getUrl().isEmpty() & item.getYear() != 0 & !item.getVideoUrl().isEmpty() & !item.getUrl().isEmpty()) {
+                    return status(HttpStatus.OK).body(mediaService.insertOrUpdateItem(type, item));
+                } else {
+                    return status(HttpStatus.BAD_REQUEST).body("Please insert missing data");
+                }
+            }
+        }
     }
 
 
@@ -88,6 +104,7 @@ public class Controller {
         Optional<? extends Media> searchedItem = mediaService.getItemById(type, id);
 
         if (searchedItem.isPresent()) {
+
 
             return status(HttpStatus.OK).body(searchedItem.get().getTitle() + " has been updated: " + mediaService.insertOrUpdateItem(type, itemToUpdate));
         } else {
@@ -107,7 +124,6 @@ public class Controller {
         } else {
             return status(HttpStatus.NOT_FOUND).body("ITEMS NOT FOUND");
         }
-
     }
 
     // show an item via ID search
@@ -136,6 +152,4 @@ public class Controller {
             return status(HttpStatus.NOT_FOUND).body("ID NOT FOUND. Could not delete item");
         }
     }
-
-
 }

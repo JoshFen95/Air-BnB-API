@@ -23,15 +23,21 @@ public class MediaService {
     private RepositoryFactory<Media> repositoryFactory;
 
 
-
     public Media insertOrUpdateItem(MediaType type, Media item) {
+
+//        if (itemExists(type, item.getTitle())) {
+//
+//            return null;
+//        } else {
+
         try {
             return repositoryFactory.getRepositoryByType(type).save(item);
         } catch (RuntimeException e) {
 
             logger.error("An error occurred when trying to request data from the database, RuntimeException: " + e);
-            throw new DataBaseException("Sorry, couldn't establish connection to the database",e);
+            throw new DataBaseException("Sorry, couldn't establish connection to the database", e);
         }
+//        }
     }
 
     public List<Media> getItems(MediaType type) {
@@ -53,7 +59,7 @@ public class MediaService {
 
             logger.error("An error occurred when trying to request data from the database, RuntimeException: " + e);
 
-            throw new DataBaseException("Sorry, couldn't establish connection to the database",e);
+            throw new DataBaseException("Sorry, couldn't establish connection to the database", e);
         }
     }
 
@@ -68,6 +74,24 @@ public class MediaService {
             throw new DataBaseException("Sorry, couldn't establish connection to the database");
         }
     }
+
+
+    public boolean itemExists(MediaType type, String title) {
+
+        List<Media> allItems = repositoryFactory.getRepositoryByType(type).findAll();
+
+        try {
+            for (int i = 0; i <= allItems.size(); i++) {
+                if (allItems.get(i).getTitle().equals(title)) {
+                    return true;
+                }
+            }
+        } catch (RuntimeException e) {
+            return false;
+        }
+        return false;
+    }
 }
+
 
 
