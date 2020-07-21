@@ -70,9 +70,8 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<!--Cucumber stuff>-->
-
-
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
@@ -98,6 +97,16 @@
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!--OAuth 2.0 stuff>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+
+
+
 
 	</dependencies>
 

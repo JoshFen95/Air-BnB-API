@@ -2,11 +2,11 @@ package com.example.airbnbapi.controller;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
+import com.example.airbnbapi.authentication.User;
 import com.example.airbnbapi.model.Media;
 import com.example.airbnbapi.model.MediaType;
 import com.example.airbnbapi.model.MediaTypeConverter;
 import com.example.airbnbapi.service.MediaService;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@RequestMapping("api/v1/media")
+@RequestMapping("api")
 @RestController
 public class Controller {
 
@@ -63,7 +63,7 @@ public class Controller {
         context.getLogger(Controller.class).setLevel(Level.valueOf(level));
 
 
-            return status(HttpStatus.OK).body(level);
+        return status(HttpStatus.OK).body(level);
 
     }
 
@@ -99,7 +99,7 @@ public class Controller {
     @PutMapping(path = "/{type}/{id}")
     public ResponseEntity updateItem(@PathVariable("type") MediaType type, @PathVariable("id") String id, @Valid @RequestBody Media itemToUpdate) {
 
-        logger.trace("User Entered: Type= " + type + " Id= "+ id + " Media= " + itemToUpdate);
+        logger.trace("User Entered: Type= " + type + " Id= " + id + " Media= " + itemToUpdate);
 
         Optional<? extends Media> searchedItem = mediaService.getItemById(type, id);
 
@@ -152,4 +152,35 @@ public class Controller {
             return status(HttpStatus.NOT_FOUND).body("ID NOT FOUND. Could not delete item");
         }
     }
+
+    @PostMapping(path = "/oauth2/authorise")
+    public ResponseEntity authoriseUser(@RequestBody User user) {
+        //check to see if the username and password exists and matches db
+        if (mediaService.userExistsAndPasswordMatches(user.getEmailAddress(), user.getPassword())) {
+            if (mediaService.authenticateUser(user) == null) {
+                return status(HttpStatus.BAD_REQUEST).body("User with this email address is already authenticated in the database");
+            } else {
+                // do authentication
+                return status(HttpStatus.OK).body(mediaService.authenticateUser(user));
+            }
+        } else {
+            // user doesn't exist, cant be authenticated
+            return status(HttpStatus.NOT_FOUND).body("User could not be authenticated. No matching username and password");
+        }
+    }
+
+    @PostMapping(path = "/oauth2/authorise/post")
+    public ResponseEntity postUser(@RequestBody User user) {
+        //check if user is in database already
+        if(mediaService.UserExists(user.getEmailAddress())) {
+            return status(HttpStatus.BAD_REQUEST).body("User already exists in the user database");
+        }
+        //check that "user" has an email address and password
+        if (!user.getEmailAddress().isEmpty() && !user.getPassword().isEmpty()) {
+            return status(HttpStatus.OK).body(mediaService.addUser(user));
+        } else {
+            return status(HttpStatus.BAD_REQUEST).body("User could not be added");
+        }
+    }
 }
+
